@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:30:52 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/12 13:15:10 by afonso           ###   ########.fr       */
+/*   Updated: 2022/03/24 16:34:55 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 char	*get_next_line(int fd)
 {
-	static unsigned int	how_many_bytes_read;
-	void				*buf[BUFFER_SIZE];
-	unsigned int		i;
-	unsigned int		newline_marker;
-	char 				*temp_alloc;
+	char				buf[BUFFER_SIZE + 1];
+	static int			buf_index;
+	int					start;
+	int					is_eof;
 
-	i = 0;
 	buf[BUFFER_SIZE] = '\0';
-	how_many_bytes_read = read(fd, buf, BUFFER_SIZE);
-	while (buf[i])
+	start = 0;
+	if (buf_index == BUFFER_SIZE)
 	{
-		if (buf[i] == '\n' && i < BUFFER_SIZE - 1)
-			temp_alloc = save_buffer(buf, i);
+		is_eof = read(fd, buf, BUFFER_SIZE);
+		if (!is_eof)
+			return (NULL);
+		buf_index = 0;
+		get_next_line(fd);
 	}
+
+
 }
+
