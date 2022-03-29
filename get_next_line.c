@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:30:52 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/24 16:34:55 by afonso           ###   ########.fr       */
+/*   Updated: 2022/03/29 11:04:32 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 char	*get_next_line(int fd)
 {
-	char				buf[BUFFER_SIZE + 1];
+	char				buf[BUFFER_SIZE];
 	static int			buf_index;
+	char				big_lines[10000000];
 	int					start;
 	int					is_eof;
 
-	buf[BUFFER_SIZE] = '\0';
+	buf_index = 0;
 	start = 0;
 	if (buf_index == BUFFER_SIZE)
 	{
@@ -29,7 +30,10 @@ char	*get_next_line(int fd)
 		buf_index = 0;
 		get_next_line(fd);
 	}
-
-
+	else
+	{
+		read(fd, buf, BUFFER_SIZE);
+		return (option_handler(buf_index, buf, fd));
+	}
 }
 

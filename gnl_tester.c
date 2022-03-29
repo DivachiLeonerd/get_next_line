@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 16:28:46 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/23 17:30:05 by afonso           ###   ########.fr       */
+/*   Updated: 2022/03/28 18:31:05 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,28 @@ void	helper(int x)
 	printf("%d\n", x);
 }
 
-void	main_helper()
+void	main_helper(void)
 {
-	char buf[43];
-	int fd;
-	static char string[] = "Hello There\n";
-	static int x = 0;
+	char	buf[42];
+	int		fd;
+	char	*buffer;
+	int 	i;
+
+	i = 0;
 	buf[42] = '\0';
-	fd = close(fd);
 	fd = open("./fd_test.txt", O_RDONLY);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	printf("fd_test.txt: %ld\n", read(fd, buf, 42));
-	printf("text: %s\n", buf);
-	fd = close(fd);
-	x += 1;
-	while (x < 4)
+	printf("abri o fd:%d\n", fd);
+	while (i < 2)
 	{
-		string[0] += 1;
-		printf("%s", string);
-		main_helper(x);
+		printf("(text)%s(text)\n", buffer = get_next_line(fd));
+		if (buffer[BUFFER_SIZE + 1] == 'a')
+			free(buffer);
+		i++;
 	}
+	fd = close(fd);
 }
 
-int	main(void)
+void	main(void)
 {
-	main_helper();
 	main_helper();
 }
