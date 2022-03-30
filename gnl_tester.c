@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 16:28:46 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/28 18:31:05 by afonso           ###   ########.fr       */
+/*   Updated: 2022/03/29 19:44:07 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,15 @@ void	main_helper(void)
 	char	buf[42];
 	int		fd;
 	char	*buffer;
-	int 	i;
+	int		i;
 
 	i = 0;
-	buf[42] = '\0';
 	fd = open("./fd_test.txt", O_RDONLY);
 	printf("abri o fd:%d\n", fd);
 	while (i < 2)
 	{
 		printf("(text)%s(text)\n", buffer = get_next_line(fd));
-		if (buffer[BUFFER_SIZE + 1] == 'a')
-			free(buffer);
+		free(buffer);
 		i++;
 	}
 	fd = close(fd);
