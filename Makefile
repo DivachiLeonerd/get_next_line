@@ -6,7 +6,7 @@
 #    By: afonso <afonso@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 17:21:03 by atereso-          #+#    #+#              #
-#    Updated: 2022/03/12 12:11:09 by afonso           ###   ########.fr        #
+#    Updated: 2022/04/19 10:31:24 by afonso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS = ${SRCS:.c=.o}
 BONUS =
 BONUS_OBJS = ${BONUS:.c=.o}
 CC = gcc
-FLAGS := -D BUFFER_SIZE=42
+CFLAGS := -D BUFFER_SIZE=15
 RM = rm -f
 
  all:
@@ -30,12 +30,12 @@ bonus: ${OBJS} ${BONUS_OBJS}
 .c.o:
 	${CC} ${FLAGS} -c $< -o ${<:.c=.o} -I.${HEADER}
 
-test:${OBJS}
-	${CC} ${CFLAGS} gnl_tester.c ${OBJS} -I.
+test:
+	${CC} ${CFLAGS} gnl_tester.c ${SRCS} -I.
 	mv a.out tester
+	./tester
 clean:
 	${RM} ${OBJS}
-	${RM} ${BONUS_OBJS}
 	${RM} tester
 
 fclean: clean

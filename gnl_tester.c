@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 16:28:46 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/29 19:44:07 by afonso           ###   ########.fr       */
+/*   Updated: 2022/04/19 10:24:52 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,51 @@
 #include<sys/stat.h>
 #include <fcntl.h>
 
-void	helper(int x)
-{
-	x == x + 1;
-	printf("%d\n", x);
-}
+#define BUFFER_SIZE 42
 
-void	main_helper(void)
+int	main(void)
 {
-	char	buf[42];
-	int		fd;
-	char	*buffer;
-	int		i;
+	int		fd = 0;
+	char	buf[BUFFER_SIZE] = "a\0";
+	char	buffer[BUFFER_SIZE];
+	char	*tmp = NULL;
+	int		i = 0;
 
-	i = 0;
 	fd = open("./fd_test.txt", O_RDONLY);
-	printf("abri o fd:%d\n", fd);
-	while (i < 2)
+	if (!fd)
 	{
-		printf("(text)%s(text)\n", buffer = get_next_line(fd));
-		free(buffer);
+		printf("Nao abriu:%d\n", fd);
+		return (fd);
+	}
+	printf("abriu\n");
+	printf("Whats the \\n index number?:%d\n", i = search_line("\0", 0));
+	printf("is Buffer checking working with a string full of \\0?: %s\n", tmp = checking_buffer(buf, 0, fd));
+	printf("Is buf checking good when there is something not \\0?: %s\n", tmp = checking_buffer(buf, 0, fd));
+	if (tmp)
+		free(tmp);
+	tmp = NULL;
+	printf("Is get_line working?:%s\n", tmp = get_line("buf\na", 0, fd, 0));
+	if (tmp)
+		free(tmp);
+	tmp = NULL;
+	printf("\n****************Utils******************\n");
+	printf("\nft_strlen:%d\n", ft_strlen("about my cock sucking\n", 0));
+	printf("\nft_substr:%s\n", tmp = ft_substr("Eu sou gay", 0, 11));
+	if (tmp)
+		free(tmp);
+	tmp = NULL;
+	printf("\nRealloc:%s\n", tmp = ft_realloc("Eu", " sou gay\n", 0, search_line(" sou gay\n", 0)));
+	if (tmp)
+		free(tmp);
+	tmp = NULL;
+	printf("\n*******************************************************\n");
+	while (i < 5)
+	{
+		printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(fd));
+		if (tmp)
+			free(tmp);
+		tmp = NULL;
 		i++;
 	}
-	fd = close(fd);
-}
-
-void	main(void)
-{
-	main_helper();
+	close(fd);
 }

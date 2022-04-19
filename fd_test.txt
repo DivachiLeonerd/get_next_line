@@ -1,5 +1,5 @@
-Ola
-o meu nome é Afonso
-Eu gosto de dar passeios pela praia enquanto o vento me percorre o traseiro escondido por baixo da minha saia. Saia que a minha mae me deu.
-Não é fácil ser se eu. Eu estou convencido que tenho uma vida muito pior que todos os outros a minha volta
-Damn bro.
+primeira linha
+segunda linha
+terceira linha
+
+quinta linha mais comprida q o buffer de 42 mas vamos lá ver como é que isto funciona

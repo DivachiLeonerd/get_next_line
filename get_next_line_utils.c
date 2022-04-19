@@ -6,74 +6,77 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:20:04 by afonso            #+#    #+#             */
-/*   Updated: 2022/03/29 19:42:43 by afonso           ###   ########.fr       */
+/*   Updated: 2022/04/19 11:49:11 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-char	*realloc_cat_buffer(char *saved_string, char *buffer, int index)
+char	*ft_realloc(char *saved_string, char *buffer,
+					int start, int end)
 {
-	int				strlen_saved;
-	char			*realloc;
-	int				tmp_index;
-	int				tmp_strlen_saved;
+	int		strlen_saved;
+	char	*realloc;
+	int		buf_len;
 
-	tmp_index = index;
-	strlen_saved = 0;
-	while (saved_string[strlen_saved])
-		strlen_saved++;
-	tmp_strlen_saved = strlen_saved;
-	realloc = malloc((strlen_saved + (index + 1) + 2) * sizeof(char));
-	while (strlen_saved)
+	buf_len = end - start + 1;
+	strlen_saved = ft_strlen(saved_string, 0);
+	realloc = malloc((strlen_saved + buf_len + 1) * sizeof(char));
+	if (!realloc)
+		return (NULL);
+	realloc[strlen_saved + buf_len] = 0;
+	while (strlen_saved > 0)
 	{
-		while (index + 1)
-			realloc[strlen_saved + index] = buffer[index--];
-		realloc[strlen_saved] = saved_string[--strlen_saved];
+		while (buf_len > 0)
+		{
+			realloc[strlen_saved + buf_len - 1] = buffer[buf_len - 1];
+			buf_len--;
+		}
+		strlen_saved--;
+		realloc[strlen_saved] = saved_string[strlen_saved];
 	}
-	index = 0;
-	realloc[tmp_strlen_saved + (tmp_index + 1)] = '\0';
-	realloc[tmp_strlen_saved + (tmp_index + 1) + 1] = 'a';
 	return (realloc);
 }
 
-char	*save_buffer(char *buffer, int start, int end)
+size_t	ft_strlen(const char *str, unsigned int index)
 {
-	int				i;
-	char			*saved_string;
-	int				strlen;
-	char			*ptr_realloc;
+	unsigned int	counter;
 
-	i = start;
-	while (i < end)
-		i++;
-	strlen = i - start;
-	i = 0;
-	saved_string = malloc(strlen * sizeof(char));
-	while (start < end)
-		saved_string[i++] = buffer[start++];
-	return (saved_string);
+	counter = 0;
+	str = &str[index];
+	while (*str != '\n' && *str != '\0' && index < BUFFER_SIZE)
+	{
+		counter++;
+		str++;
+	}
+	return (counter);
 }
 
-char	*option_handler(int index, char *buf, int fd)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int				start;
-	char			*saved_string;
+	char			*str;
+	unsigned int	i;
+	unsigned int	j;
 
-	start = index;
-	while (buf[index] != '\n' && index < BUFFER_SIZE - 1)
-		index++;
-	if (index < BUFFER_SIZE - 1)
-		return (save_buffer(buf, start, index));
-	if (index == BUFFER_SIZE - 1)
-		if (buf[index] == '\n')
-			return (&buf[start]);
-	if (buf[index] != '\n')
+	if (!s)
+		return (NULL);
+	if (start < ft_strlen(s, start))
 	{
-		saved_string = save_buffer(buf, start, BUFFER_SIZE);
-		read(fd, buf, BUFFER_SIZE);
-		while (buf[index] != '\n')
-			index++;
-		return (realloc_cat_buffer(saved_string, buf, index));
+		if (start + len < ft_strlen(s, start))
+			str = malloc(sizeof(char) * (len + 1));
+		else
+			str = malloc(sizeof(char) * (ft_strlen(s, start) - start + 1));
 	}
+	else
+		str = malloc(2 * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = start;
+	j = 0;
+	while ((start < ft_strlen(s, start) && i < start + len &&
+			(s[i] != '\0' || s[i] != '\n')))
+		str[j++] = s[i++];
+	str[j] = '\n';
+	return (str);
 }
