@@ -6,12 +6,19 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:20:04 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/19 11:49:11 by afonso           ###   ########.fr       */
+/*   Updated: 2022/04/20 12:39:05 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
+
+void	fill_buffer(char *buf, int index, int final_index)
+{
+	while (index <= final_index)
+		buf[index++] = 0;
+	return ;
+}
 
 char	*ft_realloc(char *saved_string, char *buffer,
 					int start, int end)
@@ -36,10 +43,11 @@ char	*ft_realloc(char *saved_string, char *buffer,
 		strlen_saved--;
 		realloc[strlen_saved] = saved_string[strlen_saved];
 	}
+	fill_buffer(buffer, start, end);
 	return (realloc);
 }
 
-size_t	ft_strlen(const char *str, unsigned int index)
+size_t	ft_strlen(char *str, unsigned int index)
 {
 	unsigned int	counter;
 
@@ -53,7 +61,7 @@ size_t	ft_strlen(const char *str, unsigned int index)
 	return (counter);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char			*str;
 	unsigned int	i;
@@ -61,22 +69,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	if (start < ft_strlen(s, start))
-	{
-		if (start + len < ft_strlen(s, start))
-			str = malloc(sizeof(char) * (len + 1));
-		else
-			str = malloc(sizeof(char) * (ft_strlen(s, start) - start + 1));
-	}
-	else
-		str = malloc(2 * sizeof(char));
+	str = malloc(sizeof(char) * (len + 2));
 	if (!str)
 		return (NULL);
 	i = start;
 	j = 0;
-	while ((start < ft_strlen(s, start) && i < start + len &&
-			(s[i] != '\0' || s[i] != '\n')))
+	while ((start < BUFFER_SIZE && i <= start + len
+			&& (s[i] != '\0' || s[i] != '\n')))
 		str[j++] = s[i++];
-	str[j] = '\n';
+	str[j] = '\0';
+	fill_buffer(s, start, start + len);
 	return (str);
 }

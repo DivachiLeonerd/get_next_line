@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:30:52 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/19 11:10:45 by afonso           ###   ########.fr       */
+/*   Updated: 2022/04/20 12:41:34 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 int	search_line(char *buf, int index)
 {
-	if (buf[0] == '\0')
-		return (1);
 	while (buf[index] != '\n' && buf[index] != '\0' && index < BUFFER_SIZE)
 	{
 		if (index < BUFFER_SIZE - 1)
@@ -36,16 +34,17 @@ char	*get_line(char *buf, int index, int fd, int mode)
 	char	*saved;
 
 	is_line = search_line(buf, index);
-	if (is_line < 0)
+	if (is_line < 0 || mode == 1)
 	{
 		if (mode == 0)
-			saved = ft_substr(buf, index, search_line(buf, index) - index);
+			saved = ft_substr(buf, index, BUFFER_SIZE - index);
 		if (mode == 1)
-			saved = ft_realloc(saved, buf, index, search_line(buf, index));
-		if (buf[0] == '\0')
+			saved = ft_realloc(saved, buf, index, is_line);
+		if (search_line(saved, 0) >= 0)
 			return (saved);
-		read(fd, buf, BUFFER_SIZE);
-		return (get_line(buf, index, fd, 1));
+		else
+			read(fd, buf, BUFFER_SIZE);
+		return (get_line(buf, 0, fd, 1));
 	}
 	else
 		return (ft_substr(buf, index, is_line - index));
@@ -62,7 +61,7 @@ void	*checking_buffer(char *buf, int index, int fd)
 		else
 			break ;
 	}
-	if (buf[index] == '\0' && index == BUFFER_SIZE)
+	if (buf[index] == '\0' && index == BUFFER_SIZE - 1)
 	{
 		index = 0;
 		read(fd, buf, BUFFER_SIZE);
@@ -74,12 +73,9 @@ void	*checking_buffer(char *buf, int index, int fd)
 
 char	*get_next_line(int fd)
 {
-	char			buf[BUFFER_SIZE];
+	static char		buf[BUFFER_SIZE];
 	int				index;
 
-	index = 0;
-	while (index < BUFFER_SIZE)
-		buf[index++] = 0;
 	index = 0;
 	if (fd < 0)
 		return (NULL);

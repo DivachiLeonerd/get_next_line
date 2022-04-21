@@ -6,7 +6,7 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 16:28:46 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/19 10:24:52 by afonso           ###   ########.fr       */
+/*   Updated: 2022/04/20 12:41:05 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 #include <fcntl.h>
-
-#define BUFFER_SIZE 42
 
 int	main(void)
 {
@@ -44,7 +42,7 @@ int	main(void)
 		free(tmp);
 	tmp = NULL;
 	printf("\n****************Utils******************\n");
-	printf("\nft_strlen:%d\n", ft_strlen("about my cock sucking\n", 0));
+	printf("\nft_strlen:%ld\n", ft_strlen("about my cock sucking\n", 0));
 	printf("\nft_substr:%s\n", tmp = ft_substr("Eu sou gay", 0, 11));
 	if (tmp)
 		free(tmp);
