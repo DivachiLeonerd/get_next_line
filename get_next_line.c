@@ -3,81 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:30:52 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/20 12:41:34 by afonso           ###   ########.fr       */
+/*   Updated: 2022/05/04 18:40:56 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<stdio.h>
 #include "get_next_line.h"
 
-int	search_line(char *buf, int index)
-{
-	while (buf[index] != '\n' && buf[index] != '\0' && index < BUFFER_SIZE)
-	{
-		if (index < BUFFER_SIZE - 1)
-			index++;
-		else
-			break ;
-	}
-	if (index == BUFFER_SIZE - 1 && buf[index] != '\n' && buf[index] != '\0')
-		return (-1);
-	else
-		return (index);
-}
-
-char	*get_line(char *buf, int index, int fd, int mode)
-{
-	int		is_line;
-	char	*saved;
-
-	is_line = search_line(buf, index);
-	if (is_line < 0 || mode == 1)
-	{
-		if (mode == 0)
-			saved = ft_substr(buf, index, BUFFER_SIZE - index);
-		if (mode == 1)
-			saved = ft_realloc(saved, buf, index, is_line);
-		if (search_line(saved, 0) >= 0)
-			return (saved);
-		else
-			read(fd, buf, BUFFER_SIZE);
-		return (get_line(buf, 0, fd, 1));
-	}
-	else
-		return (ft_substr(buf, index, is_line - index));
-}
-
-void	*checking_buffer(char *buf, int index, int fd)
-{
-	if (!buf)
-		return (NULL);
-	while (buf[index] == '\0' && index < BUFFER_SIZE)
-	{
-		if (index < BUFFER_SIZE - 1)
-			index++;
-		else
-			break ;
-	}
-	if (buf[index] == '\0' && index == BUFFER_SIZE - 1)
-	{
-		index = 0;
-		read(fd, buf, BUFFER_SIZE);
-		if (buf[0] == '\0')
-			return (NULL);
-	}
-	return (get_line(buf, index, fd, 0));
-}
-
 char	*get_next_line(int fd)
 {
-	static char		buf[BUFFER_SIZE];
-	int				index;
+	static char			buf[BUFFER_SIZE];
+	int					bytes_read;
+	unsigned long long	newline;
+	char				*saved;
+	int					index;
 
 	index = 0;
 	if (fd < 0)
 		return (NULL);
-	return (checking_buffer(buf, index, fd));
+	printf("buffer:%s\n", buf);
+	if (buf[0] == 0)
+	{
+		bytes_read = read(fd, buf, BUFFER_SIZE);
+		if (bytes_read < 1)
+			return (NULL);
+	}
+	newline = (unsigned long long)(ft_memchr(buf, '\n', BUFFER_SIZE) - &buf[0]);
+	if (ft_memchr(buf, '\n', BUFFER_SIZE) == 0)
+		saved = ft_substr(buf, (unsigned long long)0, ft_strlen(buf));
+	else
+	{
+		saved = ft_substr(buf, 0, newline);
+		printf("newline - &buf[0]=%llu\n", newline);
+	}
+	printf("Antes do ultimo while\n");
+	while (ft_memchr(buf, '\n', BUFFER_SIZE) == 0)
+	{
+		printf("while do newline = 0:\n");
+		checking_buffer(buf);
+		read(fd, buf, BUFFER_SIZE);
+		newline = (unsigned long long)(ft_memchr(buf, '\n', BUFFER_SIZE) - &buf[0]);
+		ft_strjoin(saved, buf);
+	}
+	return (saved);
 }

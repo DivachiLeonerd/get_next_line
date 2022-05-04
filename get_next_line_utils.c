@@ -3,57 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:20:04 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/20 12:39:05 by afonso           ###   ########.fr       */
+/*   Updated: 2022/05/04 17:48:35 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-void	fill_buffer(char *buf, int index, int final_index)
+unsigned long long	ft_strlen(const char *str)
 {
-	while (index <= final_index)
-		buf[index++] = 0;
-	return ;
-}
-
-char	*ft_realloc(char *saved_string, char *buffer,
-					int start, int end)
-{
-	int		strlen_saved;
-	char	*realloc;
-	int		buf_len;
-
-	buf_len = end - start + 1;
-	strlen_saved = ft_strlen(saved_string, 0);
-	realloc = malloc((strlen_saved + buf_len + 1) * sizeof(char));
-	if (!realloc)
-		return (NULL);
-	realloc[strlen_saved + buf_len] = 0;
-	while (strlen_saved > 0)
-	{
-		while (buf_len > 0)
-		{
-			realloc[strlen_saved + buf_len - 1] = buffer[buf_len - 1];
-			buf_len--;
-		}
-		strlen_saved--;
-		realloc[strlen_saved] = saved_string[strlen_saved];
-	}
-	fill_buffer(buffer, start, end);
-	return (realloc);
-}
-
-size_t	ft_strlen(char *str, unsigned int index)
-{
-	unsigned int	counter;
+	int	counter;
 
 	counter = 0;
-	str = &str[index];
-	while (*str != '\n' && *str != '\0' && index < BUFFER_SIZE)
+	while (*str)
 	{
 		counter++;
 		str++;
@@ -61,23 +26,96 @@ size_t	ft_strlen(char *str, unsigned int index)
 	return (counter);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_memchr(const void *s, int c, size_t n)
 {
-	char			*str;
 	unsigned int	i;
-	unsigned int	j;
+	unsigned char	*array;
+
+	array = (unsigned char *)s;
+	i = 0;
+	while (n > i)
+	{
+		if (array[i] == (unsigned char)c)
+			return ((char *)&array[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+void	checking_buffer(char *buf)
+{
+	int	index;
+	int	new_index;
+
+	index = 0;
+	new_index = 0;
+	if (!buf)
+		return ;
+	while (buf[index] != '\n' && index < BUFFER_SIZE)
+		buf[index++] = 0;
+	while (index < BUFFER_SIZE)
+	{
+		buf[index++] = 0;
+		buf[new_index++] = buf[index];
+	}
+	return ;
+}
+
+char	*ft_substr(char *s, unsigned long long start, unsigned long long len)
+{
+	char				*str;
+	unsigned long long	i;
+	unsigned long long	j;
 
 	if (!s)
 		return (NULL);
-	str = malloc(sizeof(char) * (len + 2));
+	if (start < ft_strlen(s))
+	{
+		if (start + len < ft_strlen(s))
+			str = malloc(sizeof(char) * (len + 1));
+		else
+			str = malloc(sizeof(char) * (ft_strlen(s) - start + 1));
+	}
+	else
+		str = malloc(2 * sizeof(char));
 	if (!str)
 		return (NULL);
 	i = start;
 	j = 0;
-	while ((start < BUFFER_SIZE && i <= start + len
-			&& (s[i] != '\0' || s[i] != '\n')))
+	printf("Dentro do substr antes do while de trocas\n");
+	while ((start < ft_strlen(s) && i < start + len && s[i] != '\0'))
 		str[j++] = s[i++];
 	str[j] = '\0';
-	fill_buffer(s, start, start + len);
+	printf("Dentro do substr antes do checking buffer\n");
+	checking_buffer(s);
 	return (str);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*alloc;
+
+	j = 0;
+	i = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	while (s1[i])
+		i++;
+	while (s2[j] && s2[j] != '\n')
+		j++;
+	alloc = malloc((i + j + 1) * sizeof(char));
+	if (!alloc)
+		return (NULL);
+	while (s1[i])
+	{
+		alloc[i] = s1[i];
+		i++;
+	}
+	while (s2[j] && s2[j] != '\n')
+		alloc[i++] = s2[j++];
+	alloc[i] = '\0';
+	checking_buffer(s2);
+	return (alloc);
 }

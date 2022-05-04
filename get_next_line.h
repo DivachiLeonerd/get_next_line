@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:33:44 by afonso            #+#    #+#             */
-/*   Updated: 2022/04/20 12:39:41 by afonso           ###   ########.fr       */
+/*   Updated: 2022/05/04 18:10:04 by atereso-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-char	*ft_substr(char	*s, unsigned int start, size_t len);
+char	*ft_substr(char *s, unsigned long long start, unsigned long long len);
 char	*ft_realloc(char *saved_string, char *buffer, int start, int end);
-size_t	ft_strlen(char *str, unsigned int index);
-void	*checking_buffer(char *buf, int index, int fd);
+char	*ft_memchr(const void *s, int c, size_t n);
+void	checking_buffer(char *buf);
 char	*get_line(char *buf, int index, int fd, int mode);
-int		search_line(char *buf, int index);
+unsigned long long	ft_strlen(const char *str);
+char	*ft_strjoin(char *s1, char *s2);
 #endif
