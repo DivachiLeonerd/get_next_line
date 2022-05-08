@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 12:33:44 by afonso            #+#    #+#             */
-/*   Updated: 2022/05/04 18:10:04 by atereso-         ###   ########.fr       */
+/*   Updated: 2022/05/05 11:36:07 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*get_next_line(int fd);
-char	*ft_substr(char *s, unsigned long long start, unsigned long long len);
-char	*ft_realloc(char *saved_string, char *buffer, int start, int end);
-char	*ft_memchr(const void *s, int c, size_t n);
-void	checking_buffer(char *buf);
-char	*get_line(char *buf, int index, int fd, int mode);
+char				*get_next_line(int fd);
+char				*ft_substr(char *s, unsigned long long start, unsigned long long len);
+char				*ft_realloc(char *saved_string, char *buffer, int start, int end);
+char				*ft_memchr(const void *s, int c, size_t n);
+void				checking_buffer(char *buf);
+char				*get_line(char *buf, int index, int fd, int mode);
 unsigned long long	ft_strlen(const char *str);
-char	*ft_strjoin(char *s1, char *s2);
+char				*ft_strjoin(char *saved, char *buf);
 #endif

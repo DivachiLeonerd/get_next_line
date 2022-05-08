@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:20:04 by afonso            #+#    #+#             */
-/*   Updated: 2022/05/04 17:48:35 by atereso-         ###   ########.fr       */
+/*   Updated: 2022/05/05 11:59:19 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 unsigned long long	ft_strlen(const char *str)
 {
@@ -82,16 +81,13 @@ char	*ft_substr(char *s, unsigned long long start, unsigned long long len)
 		return (NULL);
 	i = start;
 	j = 0;
-	printf("Dentro do substr antes do while de trocas\n");
 	while ((start < ft_strlen(s) && i < start + len && s[i] != '\0'))
 		str[j++] = s[i++];
 	str[j] = '\0';
-	printf("Dentro do substr antes do checking buffer\n");
-	checking_buffer(s);
 	return (str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *saved, char *buf)
 {
 	int		i;
 	int		j;
@@ -99,23 +95,23 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	j = 0;
 	i = 0;
-	if (!s1 || !s2)
+	if (!saved || !buf)
 		return (NULL);
-	while (s1[i])
-		i++;
-	while (s2[j] && s2[j] != '\n')
-		j++;
+	i = ft_strlen(saved);
+	j = ft_strlen(buf);
 	alloc = malloc((i + j + 1) * sizeof(char));
 	if (!alloc)
 		return (NULL);
-	while (s1[i])
+	i = 0;
+	while (saved[i])
 	{
-		alloc[i] = s1[i];
+		alloc[i] = saved[i];
 		i++;
 	}
-	while (s2[j] && s2[j] != '\n')
-		alloc[i++] = s2[j++];
+	j = 0;
+	while (buf[j] && buf[j] != '\n')
+		alloc[i++] = buf[j++];
 	alloc[i] = '\0';
-	checking_buffer(s2);
+	free (saved);
 	return (alloc);
 }

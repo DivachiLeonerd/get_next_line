@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_tester.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 16:28:46 by afonso            #+#    #+#             */
-/*   Updated: 2022/05/04 16:43:48 by atereso-         ###   ########.fr       */
+/*   Updated: 2022/05/06 13:40:15 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 int	main(void)
 {
 	int		fd = 0;
-	char	buf[BUFFER_SIZE] = "ola\nadeus\n";
+	int		fd2 = 0;
+	char	buf[BUFFER_SIZE];
 	char	*tmp = NULL;
 	int		i = 0;
 
@@ -28,6 +29,12 @@ int	main(void)
 	{
 		printf("Nao abriu:%d\n", fd);
 		return (fd);
+	}
+	fd2 = open("./fd_test2.txt", O_RDONLY);
+	if (!fd2)
+	{
+		printf("Nao abriu o 2:%d\n", fd);
+		return (fd2);
 	}
 	printf("abriu\n");
 	// printf("Whats the \\n index number?:%d\n", i = search_line("\0", 0));
@@ -53,15 +60,26 @@ int	main(void)
 	// tmp = NULL;
 	// checking_buffer(buf);
 	// printf("Checking buffer:%s", buf);
-	checking_buffer(buf);
-	printf("buffer depois do checking:%s",buf);
-	while (i < 6)
+	while (i < 10)
 	{
-		printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(fd));
+		printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(-1));
 		if (tmp)
 			free(tmp);
 		tmp = NULL;
+		// printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(fd2));
+		// if (tmp)
+		// 	free(tmp);
+		// tmp = NULL;
 		i++;
 	}
+	// printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(fd2));
+	// if (tmp)
+	// 	free(tmp);
+	// tmp = NULL;
+	// printf("\nIs get_next_line working?:%s\n\n", tmp = get_next_line(fd));
+	// if (tmp)
+	// 	free(tmp);
+	// tmp = NULL;
 	close(fd);
+	close (fd2);
 }
