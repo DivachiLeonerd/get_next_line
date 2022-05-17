@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afonso <afonso@student.42.fr>              +#+  +:+       +#+         #
+#    By: atereso- <atereso-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 17:21:03 by atereso-          #+#    #+#              #
-#    Updated: 2022/05/06 13:21:25 by afonso           ###   ########.fr        #
+#    Updated: 2022/05/17 13:01:27 by atereso-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS = ${SRCS:.c=.o}
 BONUS =
 BONUS_OBJS = ${BONUS:.c=.o}
 CC = gcc
-CFLAGS := -D BUFFER_SIZE=42
+CFLAGS :=-Wall -Wextra -Werror -D BUFFER_SIZE=42 -fsanitize=address
 RM = rm -f
 
  all:

@@ -1,6 +1,0 @@
-primeira
-linha
-segunda linha
-terceira linha
-
-quinta linha mais comprida q o buffer de 42 mas vamos lá ver como é que isto funciona
